@@ -5,28 +5,31 @@ class OrderList extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      orderItem: {}
+      orderList: []
     }
   }
 
   render () {
+    let listItems = this.state.orderList.map((item, index) => 
+      <OrderItem detail={item} key={item.id}/>
+    );
     return (
       <div>
-        <OrderItem detail={this.state.orderItem}/>
+        {listItems}
       </div>
     );
   }
 
   componentDidMount () {
-    //模拟请求
-    this.setState({
-      orderItem: {
-        imgUrl: 'https://img.mukewang.com/571db8940001418006000338-240-135.jpg',
-        title: '百香果冷饮一扎',
-        info: '院落创意菜',
-        price: 19.9
+    fetch('/mock/orders.json').then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          this.setState({
+            orderList: data
+          })
+        })
       }
-    })
+    });
   }
 }
 

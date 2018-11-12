@@ -1,4 +1,6 @@
 import React from 'react';
+import './index.css';
+import OrderStar from './orderStar.jsx';
 
 class OrderItem extends React.Component {
   constructor (props) {
@@ -8,120 +10,58 @@ class OrderItem extends React.Component {
       title: '',
       info: '',
       price: '',
-      status: false
+      status: props.detail.status,
+      showStar: false
     }
   }
 
   render () {
+    const { imgUrl, title, info, price, status } = this.props.detail;
     return (
-      <div>
-        <div><img content={this.state.imgUrl}/></div>
-        <div>
-          <Title content={this.state.title}/>
-          <Info content={this.state.info}/>
-          <Price content={this.state.price}/>
+      <div className="orderItem">
+        <div className="orderItem__picContainer">
+          <img className="orderItem__pic" src={imgUrl}/>
         </div>
-        <div>
-          <RateButton content={this.state.status}/>
+        <div className="orderItem__content">
+          <h1 className="orderItem__title">{title}</h1>
+          <p className="orderItem__info">{info}</p>
+          <p className="orderItem__price">$ {price}</p>
         </div>
+        <div className="orderItem__operater">
+          { this.state.status ? (
+              <button className="orderItem__btn orderItem__btn--gray">已评价</button>
+            ) : (
+              <button className="orderItem__btn orderItem__btn--red" onClick={this.handleClick.bind(this)}>评价</button>
+            ) 
+          }
+        </div>
+        {
+          this.state.showStar && 
+          <div className="orderItem__star">
+            <OrderStar onRateChange={this.handleRateChange.bind(this)} onRateCancel={this.handleRateCancel.bind(this)}></OrderStar>
+          </div>
+        }
       </div>
     );
   }
 
-  componentDidMount () {
-    // this.setState({
-    //   imgUrl: this.props.detail.imgUrl,
-    //   title: this.props.detail.title,
-    //   info: this.props.detail.info,
-    //   price: this.props.detail.price,
-    //   status: false
-    // })
-  }
-
-  componentDidUpdate () {
-    console.log(this.props.detail)
+  handleClick() {
     this.setState({
-      imgUrl: this.props.detail.imgUrl,
-      title: this.props.detail.title,
-      info: this.props.detail.info,
-      price: this.props.detail.price,
-      status: false
-    })
-  }
-}
-
-class Pic extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      content: props.content
-    }
+      showStar: true
+    });
   }
 
-  render () {
-    return (
-      <img src={this.state.content}/>
-    );
-  }
-}
-
-class Title extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      content: props.content
-    }
+  handleRateChange(value) {
+    this.setState({
+      showStar: false,
+      status: true
+    });
   }
 
-  render () {
-    return (
-      <h1>{this.state.content}</h1>
-    );
-  }
-}
-
-class Info extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      content: props.content
-    }
-  }
-
-  render () {
-    return (
-      <p>{this.state.content}</p>
-    );
-  }
-}
-
-class Price extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      content: props.content
-    }
-  }
-
-  render () {
-    return (
-      <p>$ {this.state.content}</p>
-    );
-  }
-}
-
-class RateButton extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      content: props.content
-    }
-  }
-
-  render () {
-    return (
-      <button>评价</button>
-    );
+  handleRateCancel() {
+    this.setState({
+      showStar: false
+    });
   }
 }
 
