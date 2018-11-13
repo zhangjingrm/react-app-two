@@ -6,3 +6,7 @@ body {
   text-align: left;
 }
 
+.list {
+  display: inline-block;
+}
+
