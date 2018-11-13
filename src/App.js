@@ -12,6 +12,7 @@ import Demo9 from './components/demos/demo9.jsx';
 
 import Index1 from './components/example/index1.jsx';
 import Index2 from './components/example/index2.jsx';
+import Index3 from './components/example/index3.jsx';
 
 import OrderList from './components/order/list';
 
@@ -31,8 +32,9 @@ class App extends Component {
 
         {/*<Index1 />*/}
         {/*<Index2 />*/}
+        <Index3 />
 
-        <OrderList />
+        {/*<OrderList />*/}
       </div>
     );
   }
